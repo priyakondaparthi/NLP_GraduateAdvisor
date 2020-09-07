@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Question yourself, with your own context: Under Consturction</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body style="background: #000;">
+ <div class="login">
+	<h1>Get your answer</h1>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}"method="post">
+      
+      
+      <label for="category">Choose a category:</label>
+      <select name="category" id="cars">
+       <option value="electives">electives</option>
+       <option value="graduation">graduation</option>
+       <option value="project">project</option>
+       <option value="others">others</option>
+      </select>
+        <input type="question" name="question" placeholder="question" required="required" size=50/>
+		
+
+        
+           <button type="submit" class="btn btn-primary btn-block btn-large " >Get Answer</button>
+        
+    </form>
+
+   <br>
+   <br>
+   <p style=  "color:red"  >
+   {{ prediction_text }}
+   
+  </p>
+ </div>
+
+
+</body>
+</html>
