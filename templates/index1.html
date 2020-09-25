@@ -19,6 +19,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <title>Hello, world!</title>
+    <style>
+        .dislike_color{
+            color:red
+        }
+    </style>
   </head>
   <div class="container-fluid">
   <body style="background: whitesmoke;" width:100%>
@@ -50,8 +55,19 @@
             </div>
          
           </div>
-         
+          <p style=  "color:red"  >
+            {{ prediction_text }}
+            
+           </p>
           
+          <p>Please provide your feedback<br/><br/> <button type="submit" name="like" value="Submit" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
+            <p style=  "color:green" >
+              {{ like_count }}</p>
+             <button type="submit" name="Dislike" value="Dislike"  class="btn btn-danger btn-lg"><span  class="glyphicon glyphicon-thumbs-down"></span> Disike</button><p style=  "color:red"  >
+              {{ dislike_count }}
+              
+             </p></p>
+ 
 
         </form>
 
@@ -60,10 +76,7 @@
    
       <br>
       <br>
-      <p style=  "color:red"  >
-      {{ prediction_text }}
-      
-     </p>
+
 
      
     </div>
