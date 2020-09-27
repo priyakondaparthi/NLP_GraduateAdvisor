@@ -11,7 +11,7 @@ from flask.cli import with_appcontext
 
 
 
-app = Flask(__name__,instance_path='/Users/priyankakondaparthi/Documents/Major Project - EE297/predict')
+app = Flask(__name__,instance_path='/Users/priyankakondaparthi/Documents/Major Project - EE297/predict',static_url_path='/static')
 app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'predict.sqlite'),
@@ -26,17 +26,30 @@ db.init_app(app)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    category= db.get_db().execute('SELECT category from category').fetchall()
+    return render_template('index.html',category=category)
 
 @app.route('/predict',methods=['POST'])
 def predict():
+    category= db.get_db().execute('SELECT category from category').fetchall()
     print("inside request ------------------------------------------------------------------")
     print(request.form.values)
     int_features = [str(x) for x in request.form.values()]
 
     print(int_features)
+    print("printing for test")
+    print(int_features[2])
+    
+    
 
     if(len(int_features)>2 and len(int_features[1])==0):
+        if(int_features[3]=="add"):
+            db.get_db().execute("INSERT INTO category(category) values(?)",(int_features[2],))
+            db.get_db().commit()
+            return render_template('index1.html', category=category)
+
+
+        
         if(int_features[2]=="Submit"):
             like_context=db.get_db().execute('SELECT like_value,dislike_value from FEEDBACK').fetchall()
             print("printing like context",like_context[0]['like_value']+1)
@@ -44,14 +57,14 @@ def predict():
             db.get_db().execute('UPDATE  FEEDBACK set like_value=?',(like_context[0]['like_value']+1,))
             db.get_db().commit()
             
-            return render_template('index1.html', like_count='{}'.format(like_context[0]['like_value']+1),dislike_count='{}'.format(like_context[0]['dislike_value']+1))
+            return render_template('index1.html', category=category,like_count='{}'.format(like_context[0]['like_value']+1),dislike_count='{}'.format(like_context[0]['dislike_value']+1))
         if(int_features[2]=="Dislike"):
             like_context=db.get_db().execute('SELECT like_value,dislike_value from FEEDBACK').fetchall()
             print("printing like context",like_context[0]['dislike_value']+1)
             db.get_db().execute('UPDATE  FEEDBACK set dislike_value=?',(like_context[0]['dislike_value']+1,))
             db.get_db().commit()
             
-            return render_template('index1.html', like_count='{}'.format(like_context[0]['like_value']+1),dislike_count='{}'.format(like_context[0]['dislike_value']+1))
+            return render_template('index1.html', category=category,like_count='{}'.format(like_context[0]['like_value']+1),dislike_count='{}'.format(like_context[0]['dislike_value']+1))
     
 
     ## all ifs can be removed since we are querying with filter condition"
@@ -74,7 +87,7 @@ def predict():
     output = prediction[0][0]['answer'][0]
     #output=2
     
-    return render_template('index1.html', prediction_text='Your Answer: {}'.format(output), context=int_features[0],question=int_features[1])
+    return render_template('index1.html', category=category,prediction_text='Your Answer: {}'.format(output), context=int_features[0],question=int_features[1])
     #return render_template('index.html', prediction_text='Your Answer: {}'.format(output), context=int_features[0],question=int_features[1])
 
 @app.route('/results',methods=['POST'])

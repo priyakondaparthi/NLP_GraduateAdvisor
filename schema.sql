@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS FEEDBACK;
+DROP TABLE IF EXISTS category;
 
 CREATE TABLE user (
   features TEXT PRIMARY KEY,
@@ -13,7 +14,9 @@ CREATE TABLE post (
   context TEXT NOT NULL
 );
 
-
+CREATE TABLE category (
+  category TEXT PRIMARY KEY
+);
 CREATE TABLE FEEDBACK(
   like_value INTEGER NOT NULL,
   dislike_value INTEGER NOT NULL
@@ -24,3 +27,7 @@ INSERT INTO post values('electives','You are only allowed to take one course out
 INSERT INTO post values('project','EE 297 (MSEE Project) or EE 299 (Master’s Thesis) is the culminating experience of the MSEE program and may therefore be taken after completing at least 12 units and also must have satisfied the CSU competency in written English requirement, filed the “Candidacy Form”. To register for EE297 or EE299, student must complete the appropriate form from and submit to the EE department for approval');
 INSERT INTO post values('others','You can not replace courses in your transcript, All the courses you take show on your transcript and affect your overall GPA. For graduate course advising please contact department graduate adviser Mrs. Birsen Sirkesi');
 INSERT INTO FEEDBACK values(0,0);
+INSERT INTO category values('graduation');
+INSERT INTO category values('electives');
+INSERT INTO category values('admission');
+
